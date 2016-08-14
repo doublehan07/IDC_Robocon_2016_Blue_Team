@@ -1,7 +1,9 @@
 # IDC Robocon 2016 - Blue Team
 - ```/Codes``` for all Arduino codes
+- ```/IDC2016``` for official upload files
 - ```/Circuits``` for sensors
-- ```/Mechanics``` for all ME design
+- ```/Mechanism``` for all ME design
+- ```IDC Robocon 2016.pdf``` for competition rules
 
 # Team Info
 - **Blue Team**
