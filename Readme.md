@@ -7,6 +7,7 @@
 - **Blue Team**
 - Team Name:    wikitionary
 - Team Slogan:  The power of sharing.
+
 ## Team member
 - **Yasudome Yuki** @ Tokyo Institute of Technology, Japan
 - **Wiraphong Phimonaree** @ Saraphi Technical College, Thailand 
