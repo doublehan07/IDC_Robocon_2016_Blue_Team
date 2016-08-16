@@ -146,24 +146,36 @@ void loop ()
     currentValue3 = analogRead(CS3) * 0.035; // Motor Driver 3
     currentValue4 = analogRead(CS4) * 0.035; // Motor Driver 4
 
-    //Moving - motor1, motor2
-    out1 = input1 - input2;
-    out2 = -input1 - input2;
+    //Moving - motor1, motor3
+    out1 = -input1 - input2;
+    out3 = input1 - input2;
     
     if (out1 > 0) SetMotorDirection (Motor1, false);
     else SetMotorDirection (Motor1, true);
-    if (out2 > 0) SetMotorDirection (Motor2, true);
-    else SetMotorDirection (Motor2, false);
+    if (out3 > 0) SetMotorDirection (Motor3, true);
+    else SetMotorDirection (Motor3, false);
     
     out1 = out1 > 0 ? out1 : -out1;
-    out2 = out2 > 0 ? out2 : -out2;
+    out3 = out3 > 0 ? out3 : -out3;
     out1 = currentValue1 > currentLimit ? 0 : out1;
-    out2 = currentValue2 > currentLimit ? 0 : out2;
+    out3 = currentValue3 > currentLimit ? 0 : out3;
     out1 = map (out1, 0, 800, 0, 255);
-    out2 = map (out2, 0, 800, 0, 255);
+    out3 = map (out3, 0, 800, 0, 255);
     out1 = map (out1, 0, 150, 0, 255);
-    out2 = map (out2, 0, 150, 0, 255);
+    out3 = map (out3, 0, 150, 0, 255);
     analogWrite (PWM1, out1);
+    analogWrite (PWM3, out3);
+
+    //Gripper - motor2
+    out2 = input4;
+
+    if (out2 < 0) SetMotorDirection (Motor2, true);
+    else SetMotorDirection (Motor2, false);
+
+    out2 = out2 > 0 ? out2 : -out2;
+    out2 = currentValue2 > currentLimit ? 0 : out2;
+    out2 = map(out2, 0, 400, 0, 255);
+    out2 = map(out2, 0, 150, 0, 255);
     analogWrite (PWM2, out2);
     
 //    // Print
