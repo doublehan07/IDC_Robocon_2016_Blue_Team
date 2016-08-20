@@ -42,9 +42,6 @@ int ledPin4 = 23;
 //Test Switch
 int buttonPin = 22;
 
-//Pneumatic system
-int pneuPin = 26;
-
 //Servo Motor PWM
 int servo1 = 44;
 int servo2 = 46;

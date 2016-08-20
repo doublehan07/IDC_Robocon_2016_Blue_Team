@@ -103,9 +103,7 @@ void setup ()
   analogWrite(PWM4,0); 
 
   // Initialize Servo Motor, Set servo to Mid-point.
-  //145 - initial
-  
-  myServo1.write(145);
+//  myServo1.write(90);
   
   // Open Serial port, Set baud rate for serial data transmission.
   Serial.begin(115200); // USB:Rx0,Tx0
@@ -119,92 +117,117 @@ void setup ()
 //======================= loop() ==========================
 void loop () 
 {
-  loopTime = micros() - previousLoopTime;
-  
-  // if loop time is more than 10000 microseconds, do the next loop.
-  // Limit Maximum feedback loop at 100Hz.
-  if (loopTime >= 10000) 
-  {
-    // Set new loop time
-    previousLoopTime = micros();
-
-    // Read input signal from receiver. PulseIn signal from Receiver vary between 1000 - 2000.
-    // Substract 1500 as the offset to set new signal range from (1000, 2000) to (-500, 500) 
-    // Also set Deadband limit to the input Signal
-
-    input1 = pulseIn(CH1, HIGH) - 1500; //Channel 1 -400, 400
-    input2 = pulseIn(CH2, HIGH) - 1500; //Channel 2 -400, 400
-    input3 = pulseIn(CH3, HIGH) - 1500; //Channel 3 -400, 400
-    input4 = pulseIn(CH4, HIGH) - 1500; //Channel 4 -400, 400
-    input5 = pulseIn(CH5, HIGH) - 1500; //Channel 5 -510, 530
-    input6 = pulseIn(CH6, HIGH) - 1500; //Channel 6 -510, 530
-  
-    input1 = Deadband(input1, 30); //Channel 1
-    input2 = Deadband(input2, 30); //Channel 2
-    input3 = Deadband(input3, 50); //Channel 3
-    input4 = Deadband(input4, 30); //Channel 4
-    input5 = Deadband(input5, 30); //Channel 5
-    input6 = Deadband(input6, 30); //Channel 6
-    
-    // Read Motor's Current From Motor Driver
-    // The resolution of Arduino analogRead is 5/1024 Volts/Unit. (10-Bit, Signal vary from 0 to 1023 units)
-    // The resolution of Current Sensor from POLOLU VNH5019 is 0.14 Volt/Amp.
-    // Convert analogRead signal(Volt) to Current(Amp) by multiply (5/1024)/0.14 = 0.035 Amp/Unit.
-    currentValue1 = analogRead(CS1) * 0.035; // Motor Driver 1
-    currentValue2 = analogRead(CS2) * 0.035; // Motor Driver 2
-    currentValue3 = analogRead(CS3) * 0.035; // Motor Driver 3
-    currentValue4 = analogRead(CS4) * 0.035; // Motor Driver 4
-
-    //Moving - motor3, motor4
-    out1 = input1 + input2;
-    out2 = -input1 + input2;
-    
-    if (out1 > 0) SetMotorDirection (Motor3, true);
-    else SetMotorDirection (Motor3, false);
-    if (out2 > 0) SetMotorDirection (Motor4, false);
-    else SetMotorDirection (Motor4, true);
-    
-    out1 = out1 > 0 ? out1 : -out1;
-    out2 = out2 > 0 ? out2 : -out2;
-    out1 = currentValue3 > currentLimit ? 0 : out1;
-    out2 = currentValue4 > currentLimit ? 0 : out2;
-    out1 = map (out1, 0, 800, 0, 255);
-    out2 = map (out2, 0, 800, 0, 255);
-    out1 = map (out1, 0, 150, 0, 255);
-    out2 = map (out2, 0, 150, 0, 255);
-    analogWrite (PWM3, out1);
-    analogWrite (PWM4, out2);
-
-    //Climbing - add extra motor2
-    if (input5 < 0) out3 = -input2;
-    else out3 = 0;
-
-    if (out3 > 0) SetMotorDirection (Motor2, true);
-    else SetMotorDirection (Motor2, false);
-
-//    out3 = out3 > 0 ? out3 : -out3;
-//    out3 = currentValue2 > currentLimit ? 0 : out3;
+////  loopTime = micros() - previousLoopTime;
+//  
+//  // if loop time is more than 10000 microseconds, do the next loop.
+//  // Limit Maximum feedback loop at 100Hz.
+////  if (loopTime >= 10000) 
+////  {
+//    // Set new loop time
+//    previousLoopTime = micros();
 //
-//    out3 = map (out3, 0, 400, 0, 255);
+//    // Read input signal from receiver. PulseIn signal from Receiver vary between 1000 - 2000.
+//    // Substract 1500 as the offset to set new signal range from (1000, 2000) to (-500, 500) 
+//    // Also set Deadband limit to the input Signal
+//
+//    input1 = pulseIn(CH1, HIGH) - 1500; //Channel 1 -400, 400
+//    input2 = pulseIn(CH2, HIGH) - 1500; //Channel 2 -400, 400
+//    input3 = pulseIn(CH3, HIGH) - 1500; //Channel 3 -400, 400
+//    input4 = pulseIn(CH4, HIGH) - 1500; //Channel 4 -400, 400
+//    input5 = pulseIn(CH5, HIGH) - 1500; //Channel 5 -510, 530
+//    input6 = pulseIn(CH6, HIGH) - 1500; //Channel 6 -510, 530
+//  
+//    input1 = Deadband(input1, 30); //Channel 1
+//    input2 = Deadband(input2, 30); //Channel 2
+//    input3 = Deadband(input3, 50); //Channel 3
+//    input4 = Deadband(input4, 30); //Channel 4
+//    input5 = Deadband(input5, 30); //Channel 5
+//    input6 = Deadband(input6, 30); //Channel 6
+//    
+//    // Read Motor's Current From Motor Driver
+//    // The resolution of Arduino analogRead is 5/1024 Volts/Unit. (10-Bit, Signal vary from 0 to 1023 units)
+//    // The resolution of Current Sensor from POLOLU VNH5019 is 0.14 Volt/Amp.
+//    // Convert analogRead signal(Volt) to Current(Amp) by multiply (5/1024)/0.14 = 0.035 Amp/Unit.
+//    currentValue1 = analogRead(CS1) * 0.035; // Motor Driver 1
+//    currentValue2 = analogRead(CS2) * 0.035; // Motor Driver 2
+//    currentValue3 = analogRead(CS3) * 0.035; // Motor Driver 3
+//    currentValue4 = analogRead(CS4) * 0.035; // Motor Driver 4
+//
+//    //Moving - motor3, motor4
+//    out1 = input1 + input2;
+//    out2 = -input1 + input2;
+//    
+//    if (out1 > 0) SetMotorDirection (Motor3, true);
+//    else SetMotorDirection (Motor3, false);
+//    if (out2 > 0) SetMotorDirection (Motor4, false);
+//    else SetMotorDirection (Motor4, true);
+//    
+//    out1 = out1 > 0 ? out1 : -out1;
+//    out2 = out2 > 0 ? out2 : -out2;
+//    out1 = currentValue3 > currentLimit ? 0 : out1;
+//    out2 = currentValue4 > currentLimit ? 0 : out2;
+//    out1 = map (out1, 0, 800, 0, 255);
+//    out2 = map (out2, 0, 800, 0, 255);
+//    out1 = map (out1, 0, 150, 0, 255);
+//    out2 = map (out2, 0, 150, 0, 255);
+//    analogWrite (PWM3, out1);
+//    analogWrite (PWM4, out2);
+//
+//    //Climbing - add extra motor2
+//    if (input5 < 0) out3 = -input2;
+//    else out3 = 0;
+//
+//    if (out3 > 0) SetMotorDirection (Motor2, true);
+//    else SetMotorDirection (Motor2, false);
+//
+////    out3 = out3 > 0 ? out3 : -out3;
+////    out3 = currentValue2 > currentLimit ? 0 : out3;
+////
+////    out3 = map (out3, 0, 400, 0, 255);
+//
+//    if (input5 < 0) out3 = out1;
+//    else out3 = 0;
+//    
+//    analogWrite (PWM2, out3);
+//    
+//    //Knocking - motor1
+//    if (input6 < 0) out4 = input4;
+//    else out4 = 0;
+//
+//    if (out4 > 0) SetMotorDirection (Motor1, false);
+//    else SetMotorDirection (Motor1, true);
+//
+// //   out4 = out4 > 0 ? out4 : -out4;
+//    out4 = out4 != 0 ? 255 : 0;
+//     
+//    out4 = currentValue1 > currentLimit ? 0 : out4;
+//
+////    out4 = map (out4, 0, 400, 0, 255);
+//    analogWrite (PWM1, out4);
+//
+//    if (out1 == 0) analogWrite (PWM3, out1);
+//    if (out2 == 0) analogWrite (PWM4, out2);
+//    if (out3 == 0) analogWrite (PWM2, out3);
+//    if (out4 == 0) analogWrite (PWM1, out4);
+////    SetServoAngle (180, 30);
 
-    if (input5 < 0) out3 = out1;
-    else out3 = 0;
+  int pos = 0;
+   myServo1.write(180);
+   delay(10);
+    myServo1.write(0);
+    delay(10);
+//  for(pos = 0; pos < 180; pos += 1)  // 从0度到180度运动 
+//  {                                                     // 每次步进一度
+//    myServo1.write(pos);        // 指定舵机转向的角度
+//    delay(1);                       // 等待15ms让舵机到达指定位置
+//  } 
+//  for(pos = 180; pos>=1; pos-=1)   //从180度到0度运动  
+//  {                                
+//    myServo1.write(pos);         // 指定舵机转向的角度 
+//    delay(1);                        // 等待15ms让舵机到达指定位置 
+//  } 
     
-    analogWrite (PWM2, out3);
-    
-    //Knocking - motor1
-    if (input6 < 0) out4 = input4;
-    else out4 = 0;
-
-    if (out4 < 0) myServo1.write(145);
-    else if (out4 > 0) myServo1.write(10);
-
-    if (out1 == 0) analogWrite (PWM3, out1);
-    if (out2 == 0) analogWrite (PWM4, out2);
-    if (out3 == 0) analogWrite (PWM2, out3);
-    if (out4 == 0) analogWrite (PWM1, out4);
-    
-////    // Print
+//    // Print
 //    Serial.print("M 1 = ");
 //    Serial.print(input1);
 //    Serial.print("\t M 2 = ");
@@ -228,7 +251,7 @@ void loop ()
 //    Serial.println(out3);
 //    Serial.print("\t out4 = ");
 //    Serial.println(out4);  
-  } // End if
+//  } // End if
 } // End loop
 
 
