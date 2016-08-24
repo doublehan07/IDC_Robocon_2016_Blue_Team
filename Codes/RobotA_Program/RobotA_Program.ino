@@ -175,6 +175,69 @@ void loop ()
     analogWrite (PWM3, out1);
     analogWrite (PWM4, out2);
 
+//    if (input1 > 0) //turn right
+//    {
+//      out1 = input1;
+//      out2 = input1;
+//      
+//      SetMotorDirection (Motor3, true);
+//      SetMotorDirection (Motor4, true);
+//
+//      out1 = out1 > 0 ? out1 : -out1;
+//      out2 = out2 > 0 ? out2 : -out2;
+//      out1 = currentValue3 > currentLimit ? 0 : out1;
+//      out2 = currentValue4 > currentLimit ? 0 : out2;
+//      out1 = map (out1, 0, 300, 0, 255);
+//      out2 = map (out2, 0, 300, 0, 255);
+//      //out1 = map (out1, 0, 150, 0, 255);
+//      //out2 = map (out2, 0, 150, 0, 255);
+//      analogWrite (PWM3, out1);
+//      analogWrite (PWM4, out2);
+//    }
+//    else if (input1 < 0) //turn left
+//    {
+//      out1 = input1;
+//      out2 = input1;
+//      
+//      SetMotorDirection (Motor3, false);
+//      SetMotorDirection (Motor4, false);
+//
+//      out1 = out1 > 0 ? out1 : -out1;
+//      out2 = out2 > 0 ? out2 : -out2;
+//      out1 = currentValue3 > currentLimit ? 0 : out1;
+//      out2 = currentValue4 > currentLimit ? 0 : out2;
+//      out1 = map (out1, 0, 300, 0, 255);
+//      out2 = map (out2, 0, 300, 0, 255);
+//      //out1 = map (out1, 0, 150, 0, 255);
+//      //out2 = map (out2, 0, 150, 0, 255);
+//      analogWrite (PWM3, out1);
+//      analogWrite (PWM4, out2);
+//    }
+//
+//    else //forward and backward
+//    {
+//      out1 = input2;
+//      out2 = input2;
+//      
+//      if (out1 > 0) SetMotorDirection (Motor3, true);
+//      else SetMotorDirection (Motor3, false);
+//      if (out2 > 0) SetMotorDirection (Motor4, false);
+//      else SetMotorDirection (Motor4, true);
+//
+//      out1 = out1 > 0 ? out1 : -out1;
+//      out2 = out2 > 0 ? out2 : -out2;
+//      out1 = currentValue3 > currentLimit ? 0 : out1;
+//      out2 = currentValue4 > currentLimit ? 0 : out2;
+//      out1 = map (out1, 0, 300, 0, 255);
+//      out2 = map (out2, 0, 300, 0, 255);
+//      //out1 = map (out1, 0, 150, 0, 255);
+//      //out2 = map (out2, 0, 150, 0, 255);
+//      analogWrite (PWM3, out1);
+//      analogWrite (PWM4, out2);
+//      
+//    }
+    
+
     //Climbing - add extra motor2
     if (input5 < 0) out3 = -input2;
     else out3 = 0;
